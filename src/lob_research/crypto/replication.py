@@ -156,24 +156,41 @@ def run(root: Path, config_path: Path | None = None, phase: str = "development",
         list(pool.map(prepare, jobs))
     names = ["classification", "predictions", "economic", "trades", "decisions", "threshold_search", "confusion", "coefficients", "splits"]
     records = {name: [] for name in names}
-    quality, horizons = [], []
+    quality, horizons, decision_events = [], [], {}
     for symbol in config["symbols"]:
         frames, sessions = [], {}
         for date in loaded:
             obs, session, q = load_cached(root, symbol, date)
             frames.append(obs)
             sessions[date] = session
+            decision_events[(symbol, date)] = session.event.astype(np.int8)
             quality.append(q)
         frame = pd.concat(frames, ignore_index=True).sort_values(["date", "time", "source_row"]).reset_index(drop=True)
         horizons.append(frame.assign(horizon_seconds=frame.target_quote_time-frame.source_time)[["symbol", "date", "horizon_seconds"]])
         for fold, train, val, test, protocol in calendar_folds(frame, config["dates"], config, test_dates):
             evaluate_fold(symbol, sessions, train, val, test, fold, config, records)
         del frames, sessions, frame
-    write_outputs(out, config, records, quality, horizons, metadata)
+    write_outputs(out, config, records, quality, horizons, metadata, decision_events)
     return metadata
 
 
-def write_outputs(out: Path, config: dict, records: dict, quality: list, horizons: list, metadata: dict):
+def _row_type_ic(p: pd.DataFrame, decision_events: dict) -> dict:
+    """Diagnostic: IC for decisions taken at book-message rows versus trade rows.
+
+    A trade row carries the last 100 ms book message, so its book can be stale relative
+    to trades already printed; book-message rows are freshly consistent states.
+    """
+    kind = np.concatenate([decision_events[(s, d)][g.source_row.to_numpy(dtype=int)]
+                           for (s, d), g in p.groupby(["symbol", "date"], sort=False)])
+    p = pd.concat([g for _, g in p.groupby(["symbol", "date"], sort=False)])
+    book, trade = kind == 1, kind == 4
+    return {"share_trade_row_decisions": float(trade.mean()),
+            "ic_book_row_decisions": information_coefficient(p.score[book], p.future_mid_return_bps[book]),
+            "ic_trade_row_decisions": information_coefficient(p.score[trade], p.future_mid_return_bps[trade])}
+
+
+def write_outputs(out: Path, config: dict, records: dict, quality: list, horizons: list, metadata: dict,
+                  decision_events: dict | None = None):
     pd.DataFrame(quality).to_csv(out/"data-quality.csv", index=False)
     h = pd.concat(horizons, ignore_index=True)
     h.groupby(["symbol", "date"]).horizon_seconds.describe(percentiles=[.1, .5, .9]).reset_index().to_csv(out/"horizon-seconds.csv", index=False)
@@ -219,7 +236,8 @@ def write_outputs(out: Path, config: dict, records: dict, quality: list, horizon
                         "flat_share": m["flat_n"]/m["n"],
                         "primary_trades": int(primary.trades), "primary_total_net_bps": float(primary.total_net_bps),
                         "primary_mean_net_bps": primary.mean_net_bps, "spread_only_trades": int(gross.trades),
-                        "spread_only_mean_net_bps": gross.mean_net_bps})
+                        "spread_only_mean_net_bps": gross.mean_net_bps,
+                        **(_row_type_ic(p, decision_events) if decision_events else {})})
     by_date = pd.DataFrame(by_date)
     by_date.to_csv(out/"by-date.csv", index=False)
 
@@ -239,6 +257,8 @@ def write_outputs(out: Path, config: dict, records: dict, quality: list, horizon
             d = by_date.loc[by_date.symbol == symbol]
             metric.update(dates=len(d), dates_beating_majority=int((d.delta_macro_f1 > 0).sum()),
                           dates_positive_ic=int((d.information_coefficient > 0).sum()))
+        if decision_events and model in ("validation_selected_model", "imbalance_rule", "logistic", "xgboost"):
+            metric.update(_row_type_ic(p, decision_events))
         aggregate.append({"symbol": symbol, "model": model, "split": "stitched_test", **metric})
     pd.DataFrame(aggregate).to_csv(out/"classification.csv", index=False)
     stitched = economic.loc[economic.policy.isin(["validation_selected", "fixed_0.55_diagnostic"])]
