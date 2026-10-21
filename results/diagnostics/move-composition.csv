@@ -1,0 +1,6 @@
+symbol,n,share_zero_return,share_spread_1_tick_at_decision,median_spread_ticks,nonzero_share_half_tick_multiple,nonzero_share_spread_changed,nonzero_share_both_quotes_shifted_same_way,nonzero_median_abs_move_ticks,share_abs_move_ge_spread,nonzero_sign_hit_rate_of_score,share_decisions_mid_timestamp_burst,share_horizon_over_60s
+AAPL,8338,0.0360,0.0068,13.0000,0.5219,0.9450,0.6752,5.0000,0.1644,0.5948,0.0384,0.0000
+AMZN,4797,0.0552,0.0038,12.0000,0.5324,0.9358,0.6105,3.5000,0.0609,0.6315,0.0286,0.0008
+GOOG,1920,0.0276,0.0010,26.0000,0.5394,0.9689,0.6652,8.5000,0.0891,0.6095,0.0479,0.0036
+INTC,12081,0.7561,0.7901,1.0000,0.8248,0.8248,0.1752,0.5000,0.0427,0.8971,0.1127,0.0000
+MSFT,13235,0.6770,0.7754,1.0000,0.7993,0.7993,0.2007,0.5000,0.0648,0.8786,0.0886,0.0000
