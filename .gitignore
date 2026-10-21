@@ -14,3 +14,7 @@ results/primary-scenario-trades.csv
 results/models/
 *.log
 
+# Multi-session crypto replication: raw Tardis files and derived caches stay local (licence: no redistribution)
+data/tardis/
+results/crypto-binance/**/*.parquet
+results/crypto-binance/**/primary-scenario-trades.csv
