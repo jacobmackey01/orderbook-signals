@@ -1,0 +1,5 @@
+{
+  "diagnostic": "computed on already-seen walk-forward test windows of one session",
+  "max_abs_component_reconciliation_dollars": 1.0916267889626852e-13,
+  "max_abs_diff_vs_saved_execution_sensitivity_dollars": 1.4210854715202004e-14
+}
