@@ -8,7 +8,7 @@ import pandas as pd
 import pytest
 
 from lob_research.crypto.adapter import reconstruct, build_session, BOOK_EVENT, TRADE_EVENT
-from lob_research.crypto.replication import calendar_folds
+from lob_research.crypto.replication import calendar_folds, require_priced_exits
 from lob_research.crypto.tardis import dataset_url
 from lob_research.data import make_observations, walk_forward_folds, FEATURES
 
@@ -204,3 +204,17 @@ def test_calendar_folds_match_full_walk_forward_rule():
     assert dev_folds == [(1, [dates[5]]), (2, [dates[6]]), (3, [dates[7]])]
     with pytest.raises(ValueError):
         list(calendar_folds(dev, dates, config, test_dates=[dates[8]]))
+
+
+def test_decisions_whose_exit_crosses_a_reconnect_are_dropped():
+    n, reset = 1500, 700
+    s = synthetic_session(n=n, seed=5, snapshot_at=(0, reset))
+    config = {**event_config(), "event_stride": 1}
+    obs = make_observations(s, config)
+    kept = require_priced_exits(s, obs, config)
+    reset_time = s.time[reset]
+    late = (kept.target_time < reset_time) & (kept.target_time+0.2 >= reset_time)
+    assert not late.any() and len(kept) < len(obs)
+    assert s.quality["exit_gap_exclusions"] == len(obs)-len(kept)
+    dropped = obs.loc[~obs.source_row.isin(kept.source_row)]
+    assert ((dropped.target_time < reset_time) & (dropped.target_time+0.2 >= reset_time)).all()

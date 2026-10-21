@@ -55,6 +55,23 @@ def calendar_folds(frame: pd.DataFrame, calendar: list[str], config: dict, test_
         yield fold, train, validation, test, "expanding complete-date walk-forward (fixed calendar)"
 
 
+def require_priced_exits(session: Session, observations: pd.DataFrame, config: dict) -> pd.DataFrame:
+    """Drop decisions whose exit, at any sensitivity latency, falls in another segment or on a stale quote.
+
+    Like the equity study's exclusion of targets that cross halts or invalid books, this is a
+    label/exit availability filter applied identically to every model before any prediction. It
+    prevents the fail-closed execution check from aborting when a recording gap (reconnect
+    snapshot or silence) starts between the target event and target time plus latency.
+    """
+    keep = np.ones(len(observations), dtype=bool)
+    decision_segment = session.segment[observations.source_row.to_numpy(dtype=int)]
+    for latency in config.get("latency_sensitivity_ms", [0, 50, 200]):
+        index, ok = session.at(observations.target_time.to_numpy()+latency/1000, config["max_quote_age_seconds"])
+        keep &= ok & (session.segment[index] == decision_segment)
+    session.quality["exit_gap_exclusions"] = int((~keep).sum())
+    return observations.loc[keep].reset_index(drop=True)
+
+
 def _cache_paths(root: Path, symbol: str, date: str):
     base = root/"data/tardis/processed"
     return base/f"{symbol}_{date}_observations.parquet", base/f"{symbol}_{date}_session.npz", base/f"{symbol}_{date}_quality.json"
@@ -71,7 +88,7 @@ def prepare(args):
                                   local_path(root, config["exchange"], "trades", date, symbol),
                                   symbol, date, config["lot_size"][symbol], config["gap_seconds"],
                                   config["levels"], config["max_quote_age_seconds"])
-    observations = make_observations(session, config)
+    observations = require_priced_exits(session, make_observations(session, config), config)
     observations.to_parquet(obs_path, index=False)
     # Execution needs only level one; keep the cache small.
     np.savez(session_path, time=session.time, event=session.event, size=session.size, direction=session.direction,
