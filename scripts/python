@@ -1,0 +1,11 @@
+#!/bin/sh
+# Resolve the macOS OpenMP dependency without changing system libraries.
+set -eu
+task_python="${PYTHON_BIN:-python3}"
+if [ "$(uname -s)" = "Darwin" ]; then
+    task_omp_dir="$($task_python -c 'import pathlib, sklearn; print(pathlib.Path(sklearn.__file__).parent / ".dylibs")')"
+    if [ -f "$task_omp_dir/libomp.dylib" ]; then
+        export DYLD_LIBRARY_PATH="$task_omp_dir${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}"
+    fi
+fi
+exec "$task_python" "$@"

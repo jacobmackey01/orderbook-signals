@@ -1,0 +1,7 @@
+# Experiment log
+
+- Initial plan: `docs/RESEARCH_PLAN.md` and `configs/study.json`, written before model performance was inspected. Five symbols, one-second target, fixed model parameters, validation-only decisions, untouched final interval.
+- Source access: the indexed `data.lobsterdata.com` hostname did not resolve. The provider’s own working legacy site, `php.lobsterdata.com`, exposes the original sample ZIP links. No third-party mirror was used.
+- Scope revision before inspecting any real-data model performance: the user requested event-level LOB research, expanding walk-forward evaluation, hit rate, information coefficient and net P&L. The main study now uses decisions every 20 source events, a 100-event prediction horizon and five expanding intraday folds. The original fixed-clock holdout is retained as an optional mode, not presented as the main backtest. No real-data model results had been generated when this revision was made.
+
+- After the first real-data run, added a fail-closed check for missing execution exits and normalised float32 probabilities before float64 log-loss calculation. No model parameters, feature definitions, candidate thresholds or cost assumptions were changed. The real sample had no unpriced-exit cases; the study was rerun after these correctness changes. Presentation changes show the pre-specified fixed-threshold losses alongside the no-trade primary series.

@@ -1,0 +1,62 @@
+{
+  "started_utc": "2026-10-21T20:32:42.601378+00:00",
+  "config": {
+    "symbols": [
+      "AAPL",
+      "AMZN",
+      "GOOG",
+      "INTC",
+      "MSFT"
+    ],
+    "session_date": "2012-06-21",
+    "levels": 10,
+    "start_seconds": 34500,
+    "end_seconds": 57300,
+    "grid_seconds": 0.5,
+    "horizon_seconds": 1.0,
+    "sampling": "event",
+    "event_stride": 20,
+    "horizon_events": 100,
+    "walk_forward_initial_train_fraction": 0.4,
+    "walk_forward_validation_fraction": 0.1,
+    "walk_forward_test_fraction": 0.1,
+    "max_quote_age_seconds": 1.0,
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "seed": 42,
+    "latency_ms": 50,
+    "fee_bps_per_side": 1.0,
+    "confidence_thresholds": [
+      0.45,
+      0.55,
+      0.65,
+      0.75,
+      0.85,
+      1.01
+    ],
+    "min_validation_trades": 30,
+    "bootstrap_block_seconds": 60,
+    "bootstrap_repetitions": 500
+  },
+  "config_sha256": "fd66320a6d5420b0425b7c32f77ccf91e0801af82fa7da59fd92ebab0a8da73b",
+  "plan_sha256": "36c12284b1de60329fcbd3a1dfbfec36ab6f2381b297ee6e6de3753379e526f9",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "matplotlib": "3.11.2",
+    "pyarrow": "26.0.0"
+  },
+  "source_code_sha256": {
+    "__init__.py": "8fd0bf79b252f2dc5c3e9880f62c741038241501055f6957b5327e1ffd1a268b",
+    "cli.py": "b06d67990820c8586ee20fcf663ae3854bdea6b152aede17e02b3d6b0d2f5aae",
+    "data.py": "c28ff16d8d625c4e8e0ddb592c1ff2dcb89f9dd0d246a840e50d6dfc9fba9850",
+    "evaluation.py": "528c88b489131b302084498b4253c09e03312f32f193df7dfcc5d8290069bb27",
+    "models.py": "0920b6ec07e70dcc557ebdf9f835460b1da00c743058833908e218996b748030",
+    "pipeline.py": "822729b3a598f66ad07ffc1d1c9a0ed744943d0e75758a3d6fdc73b07b0d3ca3",
+    "presentation.py": "a4692bcfda8ece3ed39671259fab3093c2c4cd10db722773b9979a88cd10a522"
+  }
+}

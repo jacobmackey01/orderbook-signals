@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store
+data/raw/*
+!data/raw/.gitkeep
+data/processed/
+results/predictions.parquet
+results/observations.parquet
+results/primary-scenario-trades.csv
+results/models/
+*.log
+

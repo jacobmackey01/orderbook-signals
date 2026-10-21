@@ -1,0 +1,57 @@
+[
+  {
+    "symbol": "AAPL",
+    "url": "https://php.lobsterdata.com/info/sample/LOBSTER_SampleFile_AAPL_2012-06-21_10.zip",
+    "sha256": "326839316d67d7819ca0541ffdf73cdb044d6ae4105cce0ef9c615e8848e9d43",
+    "bytes": 7318779,
+    "members": [
+      "AAPL_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "AAPL_2012-06-21_34200000_57600000_message_10.csv",
+      "LOBSTER_SampleFiles_ReadMe.txt"
+    ]
+  },
+  {
+    "symbol": "AMZN",
+    "url": "https://php.lobsterdata.com/info/sample/LOBSTER_SampleFile_AMZN_2012-06-21_10.zip",
+    "sha256": "5cff62a609b27aef82285382ad646c4c2facc0a692a60bedda633de64c4aa54f",
+    "bytes": 4814504,
+    "members": [
+      "AMZN_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "AMZN_2012-06-21_34200000_57600000_message_10.csv",
+      "LOBSTER_SampleFiles_ReadMe.txt"
+    ]
+  },
+  {
+    "symbol": "GOOG",
+    "url": "https://php.lobsterdata.com/info/sample/LOBSTER_SampleFile_GOOG_2012-06-21_10.zip",
+    "sha256": "2fa66b61c7c4d4cd3f19180aaa7f5937a26355f81b2ac8e4a84e36550e8dde4a",
+    "bytes": 2812466,
+    "members": [
+      "GOOG_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "GOOG_2012-06-21_34200000_57600000_message_10.csv",
+      "LOBSTER_SampleFiles_ReadMe.txt"
+    ]
+  },
+  {
+    "symbol": "INTC",
+    "url": "https://php.lobsterdata.com/info/sample/LOBSTER_SampleFile_INTC_2012-06-21_10.zip",
+    "sha256": "327121717467df0050654ba8a76e490d4dfe5a454a166294ace59b7e0877dff6",
+    "bytes": 8266754,
+    "members": [
+      "INTC_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "INTC_2012-06-21_34200000_57600000_message_10.csv",
+      "LOBSTER_SampleFiles_ReadMe.txt"
+    ]
+  },
+  {
+    "symbol": "MSFT",
+    "url": "https://php.lobsterdata.com/info/sample/LOBSTER_SampleFile_MSFT_2012-06-21_10.zip",
+    "sha256": "0825e00ec83cb8ac8b53fd1efb7f2138b7848659e625c49621ebd9b55757be4c",
+    "bytes": 8956947,
+    "members": [
+      "MSFT_2012-06-21_34200000_57600000_orderbook_10.csv",
+      "MSFT_2012-06-21_34200000_57600000_message_10.csv",
+      "LOBSTER_SampleFiles_ReadMe.txt"
+    ]
+  }
+]
