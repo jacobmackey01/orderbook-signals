@@ -106,7 +106,7 @@ python -m pip install -e . --no-deps
 ./scripts/python scripts/build_notebook.py && ./scripts/python -m jupyter nbconvert --execute --to notebook --inplace notebooks/orderbook-study.ipynb
 ```
 
-Crypto replication: about 4.2 GB of downloads and roughly 12 GB on disk with caches. Downloading means accepting Tardis.dev's licence (see below).
+Cross-market crypto study: about 4.2 GB of downloads and roughly 12 GB on disk with caches. Downloading means accepting Tardis.dev's licence (see below).
 
 ```bash
 ./scripts/python -m lob_research.cli crypto-download           # 48 files, hash-checked against data/tardis-manifest.json
