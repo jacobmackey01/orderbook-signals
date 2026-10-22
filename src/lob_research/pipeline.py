@@ -81,8 +81,8 @@ def evaluate_fold(symbol, sessions, train, validation, test, fold, config, recor
                 policies['fixed_0.55_diagnostic'] = .55
             for policy, gate in policies.items():
                 actions = labels-1 if model_name in ['majority', 'imbalance_rule'] else direction_from_probabilities(probability, gate)
-                for latency in [0, 50, 200]:
-                    for fee in [0., 1., 5.]:
+                for latency in config.get('latency_sensitivity_ms', [0, 50, 200]):
+                    for fee in config.get('fee_sensitivity_bps', [0., 1., 5.]):
                         trades = simulate_dates(sessions, d, actions, latency_ms=latency, fee_bps=fee,
                             horizon=config['horizon_seconds'], max_age=config['max_quote_age_seconds'])
                         records['economic'].append({'symbol': symbol, 'fold': fold, 'model': model_name,
