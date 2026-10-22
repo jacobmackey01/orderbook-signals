@@ -10,7 +10,7 @@ The run uses 5 expanding walk-forward folds per stock (expanding intraday walk-f
 
 ## Predictive performance
 
-Macro-F1 averages the F1 scores for down, unchanged and up. Hit rate below is directional correctness among predicted up/down observations, counting realised flat moves as misses; coverage prevents comparison with a model that rarely takes a direction from hiding abstention. Rank IC is Spearman correlation between P(up)−P(down) and future mid-price return. Constant scores have undefined IC.
+Macro-F1 averages the F1 scores for down, unchanged and up. Hit rate below is directional correctness among predicted up/down observations, counting realised flat moves as misses; coverage prevents comparison with a model that rarely takes a direction from hiding abstention. Rank IC is Spearman correlation between P(up)−P(down) and future mid-price return. A score that is constant within a fold has undefined IC in that fold; the majority baseline's small pooled IC comes only from class frequencies changing between folds and should be read as zero.
 
 | symbol | macro_f1 | directional_hit_rate | directional_coverage | information_coefficient | ic_low | ic_high |
 |---|---|---|---|---|---|---|
@@ -26,6 +26,8 @@ Macro-F1 averages the F1 scores for down, unchanged and up. Hit rate below is di
 
 IC bounds resample 60-second clock blocks within the observed test series. They describe intraday sampling uncertainty, not robustness across trading days. All models, fold results, confusion matrices and paired model-minus-majority intervals are retained in `results/`. The five-stock comparisons are exploratory.
 
+The [audit](AUDIT.md) traces most of the INTC/MSFT IC to spread-state mechanics: at a one-tick spread the mid usually does not move, and most non-zero moves are half-tick moves when one best queue empties, which level-one imbalance largely predicts. Non-overlapping subsets give the same IC. Decisions inside an equal-timestamp burst follow the file-order rule but are not actionable; excluding them lowers IC by 0.01–0.03.
+
 ## P&L after spread and fee costs
 
 The following table stitches the model selected by validation macro-F1 in each fold and that model's validation-selected threshold. Every executed position is one share. The scenario uses 50 ms latency, entry/exit across the observed spread and an illustrative fee of 1 bp per side.
@@ -38,7 +40,7 @@ The following table stitches the model selected by validation macro-F1 in each f
 | INTC | 0 | 0.0000 |
 | MSFT | 0 | 0.0000 |
 
-No-trade is a valid outcome of validation selection. A separate fixed 0.55 confidence diagnostic shows what execution costs do to directional trades; it was specified before inspecting test outcomes and is not a strategy selected on test P&L.
+No-trade is a valid outcome of validation selection. A separate fixed 0.55 confidence diagnostic shows what execution costs do to directional trades; it was specified before inspecting test outcomes and is not a strategy selected on test P&L. The [economics diagnostic](ECONOMICS.md) decomposes those losses: the mid-to-mid signal is positive, but crossing the spread costs two to eight times as much, before fees.
 
 ![Walk-forward P&L](../results/figures/walk-forward-pnl.png)
 
@@ -48,7 +50,7 @@ No-trade is a valid outcome of validation selection. A separate fixed 0.55 confi
 
 Prediction quality and economic value are different tests. The spread is paid through actual bid/ask prices in this diagnostic, then fees are deducted from both sides. Latency scenarios use quotes available at the assumed execution times. Trades cannot overlap within a symbol, but displayed historical liquidity does not guarantee an executable fill. Borrow availability, routing, hidden liquidity and impact are not modelled. LOBSTER has already reconstructed the books; this project validates and replays those states rather than claiming a full ITCH or queue reconstruction.
 
-The sample contains five stocks across 1 historical session(s). Event dependence, limited regime coverage and historical market structure limit generalisation. Large row counts do not create independent trading days. The fee schedule is illustrative, not a verified account-specific charge. Next evidence should come from several untouched sessions and more realistic execution data, not repeated tuning of this test window.
+The sample contains five stocks across 1 historical session(s). Event dependence, limited regime coverage and historical market structure limit generalisation. Large row counts do not create independent trading days. The fee schedule is illustrative, not a verified account-specific charge. Next evidence should come from several untouched sessions and more realistic execution data, not repeated tuning of this test window. A separate [multi-date crypto replication](REPLICATION_FINDINGS.md) tests whether the pattern recurs on other dates in another market; it is not pooled with, and does not extend, this equity sample.
 
 ## Reproduce and inspect
 

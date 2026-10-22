@@ -1,5 +1,5 @@
 {
-  "started_utc": "2026-10-21T20:32:42.601378+00:00",
+  "started_utc": "2026-10-22T00:02:30.976887+00:00",
   "config": {
     "symbols": [
       "AAPL",
@@ -52,14 +52,15 @@
   },
   "source_code_sha256": {
     "__init__.py": "8fd0bf79b252f2dc5c3e9880f62c741038241501055f6957b5327e1ffd1a268b",
-    "cli.py": "b06d67990820c8586ee20fcf663ae3854bdea6b152aede17e02b3d6b0d2f5aae",
+    "cli.py": "0920fcecdbd03fcb1554a9cdaa06d45d4140ac354e3db80b9dfc11fcbff94d0e",
     "data.py": "c28ff16d8d625c4e8e0ddb592c1ff2dcb89f9dd0d246a840e50d6dfc9fba9850",
+    "economics.py": "e5489e4dc8f2a6d00aef79e7e7487c2b3897ff9d2ec6f405a12d49432b8a34eb",
     "evaluation.py": "528c88b489131b302084498b4253c09e03312f32f193df7dfcc5d8290069bb27",
     "models.py": "0920b6ec07e70dcc557ebdf9f835460b1da00c743058833908e218996b748030",
-    "pipeline.py": "822729b3a598f66ad07ffc1d1c9a0ed744943d0e75758a3d6fdc73b07b0d3ca3",
-    "presentation.py": "a4692bcfda8ece3ed39671259fab3093c2c4cd10db722773b9979a88cd10a522"
+    "pipeline.py": "e659c31f0740892c92db53b26d635d400418641f02ce4b9828569188f52ea4ff",
+    "presentation.py": "10a49d689671d79768af7d0ee51a9375007785d58189ff79f0988cc1c46cc176"
   },
-  "completed_utc": "2026-10-21T20:32:58.736445+00:00",
+  "completed_utc": "2026-10-22T00:02:46.631309+00:00",
   "protocols": [
     "expanding intraday walk-forward (one session)"
   ],
