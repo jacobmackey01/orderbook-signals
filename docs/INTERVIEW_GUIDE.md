@@ -181,7 +181,11 @@ Be ready to say why passive execution is the natural next idea and why it is har
 - Market structure has changed since 2012 (more fragmentation, different fee tiers, odd-lot quoting), so absolute numbers do not transfer.
 - Several real-data paths (halts, auction crosses, crossed books, empty levels) never occur in this sample. They are covered only by unit tests.
 
-The independent-session extension (see the README and `docs/REPLICATION_FINDINGS.md` if present) is a separate replication in a different market. It shows whether the *pattern* recurs across dates, not that the equity numbers persist.
+The multi-date extension (`docs/REPLICATION_FINDINGS.md`) is a separate replication on Binance spot BTCUSDT/ETHUSDT. It used 12 first-of-month dates; the last four were held out and run once from a frozen commit. The model beat majority on every test date (macro-F1 0.70/0.66 vs 0.20/0.17 on the held-out dates), and validation never chose to trade. Before fees, the fixed diagnostic made +0.3 to +0.5 bp per position, against a 10 bp-per-side taker fee. It shows the *pattern* recurring across dates. It does not show that the equity numbers persist.
+
+Know the crypto caveat well, because it is the kind of thing interviewers probe. Binance batches depth changes every 100 ms, while trades stream one at a time. A decision on a trade row sees trades that the stale book does not yet reflect. The IC there is about 0.73, against 0.37–0.39 at freshly updated book rows. A live trader would also see those trades early, but could not trade at the stale quotes, so the higher IC and the small pre-fee profit are both optimistic. The honest comparison with the equities uses the book-row IC.
+
+**Exercise 7.** From `results/crypto-binance/heldout/classification.csv`, compare `ic_book_row_decisions` and `ic_trade_row_decisions` with the IC of the `imbalance_rule` model. How much does XGBoost add over a fixed imbalance threshold in each market? (In crypto the imbalance rule alone reaches IC 0.61–0.64 on all rows.)
 
 ## 11. What to test next with better data
 
