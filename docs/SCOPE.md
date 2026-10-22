@@ -43,4 +43,4 @@ A packaged Python library and CLI; source manifest and file hashes; meaningful u
 
 ## Boundaries
 
-No live trading, accounts, order submission, paid data purchase or public GitHub publication is part of this build. The backtest is an execution scenario using historical displayed quotes, with no guaranteed fills, short availability, market impact or queue model. A positive result would require multi-day and execution follow-up; a negative result is retained rather than tuned away.
+No live trading, accounts, order submission or paid data purchase is part of this build. Public GitHub publication came later and excludes raw data, row-level outputs and models trained on licensed data. The backtest is an execution scenario using historical displayed quotes, with no guaranteed fills, short availability, market impact or queue model. A positive result would require multi-day and execution follow-up; a negative result is retained rather than tuned away.

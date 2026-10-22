@@ -1,6 +1,6 @@
 # Audit: LOB signal study (2012-06-21 LOBSTER samples)
 
-Independent check of the code, saved results and claims, made before the project is used in applications. Audited commit: `9fbed03`. Scratch checks ran on the raw CSVs. The reproducible part of the IC analysis is in `scripts/ic_diagnostics.py`, which writes `results/diagnostics/ic-decomposition.csv` and `results/diagnostics/move-composition.csv`.
+Independent check of the code, saved results and claims. Audited commit: `340bbbb`. Scratch checks ran on the raw CSVs. The reproducible part of the IC analysis is in `scripts/ic_diagnostics.py`, which writes `results/diagnostics/ic-decomposition.csv` and `results/diagnostics/move-composition.csv`.
 
 **Bottom line:** I found no material bug, so no pipeline result changed. The headline rank ICs are real out-of-sample associations, but most of the INTC/MSFT IC comes from spread-state mechanics: half-tick mid moves when a one-tick spread opens or closes, predicted by queue imbalance. The large-tick mechanics also dominate the economics. Even with zero fees and zero latency, the fixed 0.55 diagnostic loses about one spread per trade.
 

@@ -2,7 +2,7 @@
 
 **On four held-out dates, BTCUSDT and ETHUSDT show a pattern similar to the equity study: the validation-selected model beats the majority baseline on every date, and validation never selects a trading policy once Binance's 10 bp taker fee is charged.** The headline predictability is materially affected by stale book updates in the 100 ms depth feed, and the results are conditional on complete recording windows (both below). This is a separate cross-market study with a feed-resolution limitation. It supports the equity pattern but does not confirm the equity numbers, and it is not pooled with the equity sample.
 
-Plan: [EXTENSION_PLAN.md](EXTENSION_PLAN.md), committed before any model was fitted. Data, terms and hashes: [DATA_SOURCES.md](DATA_SOURCES.md). Deviations: [EXPERIMENT_LOG.md](EXPERIMENT_LOG.md), "Extension". The held-out folds ran once, from commit `cd56ad6` (recorded in `results/crypto-binance/heldout/run.json`).
+Plan: [EXTENSION_PLAN.md](EXTENSION_PLAN.md), committed before any model was fitted. Data, terms and hashes: [DATA_SOURCES.md](DATA_SOURCES.md). Deviations: [EXPERIMENT_LOG.md](EXPERIMENT_LOG.md), "Extension". The held-out folds ran once, from commit `39c1fde` (recorded in `results/crypto-binance/heldout/run.json`).
 
 ## Design in one paragraph
 
