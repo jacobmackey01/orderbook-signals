@@ -24,3 +24,12 @@ See `docs/AUDIT.md`. These checks were re-run against the raw CSVs and the saved
 Validation establishes that the implemented sample study runs and its reported results reconcile. It does not establish current-market performance, executable fills or persistent trading alpha. The data contain a single historical trading date. No model hyperparameters or thresholds were retuned on test outcomes after the first run.
 
 GitHub Actions is provided as a workflow file. It has not run remotely because the repository has not been published.
+
+## Continuation checks (2026-10-22, branch `claude/lob-continuation`)
+
+- The audit, economics and crypto-replication branches were merged. All 44 tests pass: the 23 original tests, 8 economics cases and 13 crypto adapter tests.
+- The equity pipeline was rerun on the merged code. Every committed result table and figure reproduced byte for byte; only the timestamps and source hashes in `run.json` changed. `lob_research.economics` and `scripts/ic_diagnostics.py` also reproduced their committed outputs exactly.
+- The notebook was rebuilt and executed top to bottom with no cell errors. The HTML export was regenerated, but its full-page layout was not inspected in a browser.
+- Headline README numbers were recomputed from `results/classification.csv`, `results/validation-decisions.csv` and `results/crypto-binance/heldout/classification.csv`.
+- The crypto held-out phase was run once by the replication work, from commit `cd56ad6`. It was not rerun during integration, because doing so needs the 4.2 GB raw download, which stays local.
+- GitHub Actions has still not run remotely.
