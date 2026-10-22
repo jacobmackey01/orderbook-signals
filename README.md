@@ -1,12 +1,12 @@
 # Limit order book signals
 
-**Order-book features predict the direction of short-horizon mid-price moves out of sample, but the predictable moves are smaller than the cost of trading them.** Validation-selected trading policies choose not to trade in every walk-forward fold. A cost breakdown shows why: the mid-to-mid signal is positive, and crossing the spread (equities) or paying the taker fee (crypto) takes several times that.
+**Order-book features predict the direction of short-horizon mid-price moves out of sample. Under the tested horizon, taker execution and cost assumptions, though, the predictable moves are smaller than the cost of trading them.** Validation-selected trading policies choose not to trade in every walk-forward fold. A cost breakdown shows why: the mid-to-mid signal is positive, and crossing the spread (equities) or paying the taker fee (crypto) takes several times that. The study does not show that these signals can never be traded profitably, only that they fail in the designs tested here.
 
 The project has three parts:
 
 1. **Equity baseline.** Official LOBSTER ten-level samples for AAPL, AMZN, GOOG, INTC and MSFT on 21 June 2012: 2,110,860 paired message/book events and 85,408 decisions. This is one historical session.
 2. **Audit and economics diagnostics** on that baseline. They check correctness, explain the high rank ICs and decompose the losses. They re-read test windows already seen, so they explain the result rather than confirm it.
-3. **Multi-date replication** on Binance spot BTCUSDT and ETHUSDT (Tardis.dev free first-of-month files). There are 12 UTC dates, the last four held out and run once from a frozen commit. This is a separate market and is never pooled with the equity sample.
+3. **Separate cross-market study** on Binance spot BTCUSDT and ETHUSDT (Tardis.dev free first-of-month files). There are 12 UTC dates, the last four held out and run once from a frozen commit. It tests whether a similar pattern appears across more dates in another market. It is never pooled with the equity sample, and the 100 ms resolution of its depth feed limits how its predictability can be read.
 
 This is independent research on public historical data. It involves no live trading, and the backtests are displayed-quote simulations, not realised profits.
 
@@ -67,24 +67,27 @@ The breakdown reconciles exactly with the simulator.
 
 ![Where the P&L goes](results/economics/decomposition.png)
 
-### Multi-date replication: Binance spot ([replication findings](docs/REPLICATION_FINDINGS.md))
+### Cross-market study: Binance spot ([findings](docs/REPLICATION_FINDINGS.md))
 
 | held-out dates 2026-07-01 to 10-01 | macro-F1 (majority) | hit rate / coverage | rank IC | IC at book-update rows | dates beating majority | validation-selected trades |
 |---|---|---|---|---|---|---|
 | BTCUSDT | 0.698 (0.199) | 70.5% / 61.6% | 0.733 | 0.388 | 4/4 | 0 |
 | ETHUSDT | 0.656 (0.175) | 70.2% / 75.3% | 0.689 | 0.373 | 4/4 | 0 |
 
-The pattern replicates across dates: the model beats majority on all seven test dates per instrument (four held out), and validation never selects a trading policy. Before fees, the fixed diagnostic earns +0.3 to +0.5 bp per position. Binance's 10 bp-per-side taker fee turns that into about −19.5 bp. The spread (one 0.01 USDT tick, about 0.001 bp) hardly matters here, unlike in the equities.
+A similar pattern appears across dates: the model beats majority on all seven test dates per instrument (four held out), and validation never selects a trading policy. The headline predictability is materially affected by stale book updates (below). Read this as supporting evidence from a different market with a feed-resolution limitation, not as a confirmation of the equity numbers. Before fees, the fixed diagnostic earns +0.3 to +0.5 bp per position. Binance's 10 bp-per-side taker fee turns that into about −19.5 bp. The spread (one 0.01 USDT tick, about 0.001 bp) hardly matters here, unlike in the equities.
 
 **Read the crypto IC with care.** Binance's depth stream batches book changes every 100 ms, while trades arrive one at a time. Most decisions fall on trade rows, which still carry the previous book update, and part of the "prediction" is the book catching up with trades already printed. At freshly updated book rows the IC is 0.37–0.39, comparable to the equities. This stale-book effect also makes the small pre-fee profit optimistic. The split by row type was a diagnostic added during development, before the held-out run; the primary analysis is as planned.
+
+**The crypto results are conditional on complete recording windows.** After a development run hit recording gaps, a filter (`require_priced_exits`) was added before the held-out run. It drops decisions whose exit quote, at any tested latency, would fall in a different recording segment or on a stale quote. That uses knowledge of whether the *future* exit quote is available, so the sample is conditioned on future data availability. It removed 34 decisions in total (29 on held-out dates: BTC 23 on 2026-07-01, ETH 6 on 2026-08-01), out of about 1.38 million held-out decisions. The effect on the metrics is negligible, but it means the simulation is not fully actionable as run. The equity study applies a comparable rule (the target row must be valid and in the same segment), which removed nothing because the 2012 sample has no invalid segments.
 
 ![Crypto performance by date](results/crypto-binance/figures/performance-by-date.png)
 
 ## Limits
 
 - **Equities:** one session from 2012, at one venue (NASDAQ, not the NBBO). Market structure has changed since. The sample contains no halts, auction crosses or crossed books, so those code paths are tested only on synthetic data.
-- **Crypto:** 12 dates (4 held out), two correlated instruments on one venue in one year. It is not event-level order flow (no individual adds or cancels; 100 ms batched depth). The stale-book effect is described above.
-- **Uncertainty:** block intervals measure within-day sampling noise. The cross-day evidence is the per-date results: seven test dates per crypto instrument and none for equities.
+- **Crypto:** 12 dates (4 held out), two correlated instruments on one venue in one year. It is not event-level order flow (no individual adds or cancels; 100 ms batched depth). The stale-book effect and the conditioning on complete recording windows are described above.
+- **Scope of the negative result:** it covers a 100-event horizon, taker entry and exit, and the tested fees and latencies. It does not rule out profitable use of these signals with passive execution, other horizons or cheaper execution, none of which was tested.
+- **Uncertainty:** block intervals measure within-day sampling noise. The cross-day evidence is the per-date results: seven test dates per crypto instrument and none for equities. The search for more free equity sessions was limited to LOBSTER's public samples and a few obvious alternatives (see [DATA_SOURCES.md](docs/DATA_SOURCES.md)); it was not exhaustive.
 - **Execution:** displayed quotes do not guarantee fills. There is no queue, passive-fill, impact, borrow or venue-specific rebate model, and the equity fees are illustrative.
 
 ## Reproduce

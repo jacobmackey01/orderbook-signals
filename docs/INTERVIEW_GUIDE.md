@@ -181,9 +181,11 @@ Be ready to say why passive execution is the natural next idea and why it is har
 - Market structure has changed since 2012 (more fragmentation, different fee tiers, odd-lot quoting), so absolute numbers do not transfer.
 - Several real-data paths (halts, auction crosses, crossed books, empty levels) never occur in this sample. They are covered only by unit tests.
 
-The multi-date extension (`docs/REPLICATION_FINDINGS.md`) is a separate replication on Binance spot BTCUSDT/ETHUSDT. It used 12 first-of-month dates; the last four were held out and run once from a frozen commit. The model beat majority on every test date (macro-F1 0.70/0.66 vs 0.20/0.17 on the held-out dates), and validation never chose to trade. Before fees, the fixed diagnostic made +0.3 to +0.5 bp per position, against a 10 bp-per-side taker fee. It shows the *pattern* recurring across dates. It does not show that the equity numbers persist.
+The multi-date extension (`docs/REPLICATION_FINDINGS.md`) is a separate cross-market study on Binance spot BTCUSDT/ETHUSDT. It used 12 first-of-month dates; the last four were held out and run once from a frozen commit. The model beat majority on every test date (macro-F1 0.70/0.66 vs 0.20/0.17 on the held-out dates), and validation never chose to trade. Before fees, the fixed diagnostic made +0.3 to +0.5 bp per position, against a 10 bp-per-side taker fee. It supports a similar *pattern* across more dates in another market. It does not confirm the equity numbers, and its headline predictability is affected by the feed limitation below.
 
 Know the crypto caveat well, because it is the kind of thing interviewers probe. Binance batches depth changes every 100 ms, while trades stream one at a time. A decision on a trade row sees trades that the stale book does not yet reflect. The IC there is about 0.73, against 0.37–0.39 at freshly updated book rows. A live trader would also see those trades early, but could not trade at the stale quotes, so the higher IC and the small pre-fee profit are both optimistic. The honest comparison with the equities uses the book-row IC.
+
+One more caveat to be able to explain: the crypto results are **conditional on complete recording windows**. A filter drops decisions whose future exit quote would fall in a recording gap. That conditions the sample on future data availability, which a live system could not do. It removed only 34 decisions (29 on held-out dates, out of about 1.38 million), so the metrics barely change, but the simulation is not fully actionable. The equity study's rule that a target must be valid and in the same segment works the same way; it removed nothing in the 2012 sample.
 
 **Exercise 7.** From `results/crypto-binance/heldout/classification.csv`, compare `ic_book_row_decisions` and `ic_trade_row_decisions` with the IC of the `imbalance_rule` model. How much does XGBoost add over a fixed imbalance threshold in each market? (In crypto the imbalance rule alone reaches IC 0.61–0.64 on all rows.)
 
@@ -196,7 +198,7 @@ In order of value:
 4. **Passive execution with an explicit fill model**: LOBSTER order IDs allow queue tracking at displayed levels. This needs a fill and adverse-selection model, validated before any P&L claim.
 5. Longer horizons, where the move distribution is wider relative to the spread, with the same walk-forward discipline.
 
-Not worth doing: more trees, deep models or a hyperparameter search on this session. The constraint is economics and data, not model capacity.
+Less useful: more trees, deep models or a hyperparameter search on this session. In the tested design the binding constraint was execution cost relative to the size of the move, not model capacity. That is a finding about these horizons, policies and costs, not a proof that the signals can never be traded.
 
 ---
 
