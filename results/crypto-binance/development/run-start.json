@@ -1,0 +1,128 @@
+{
+  "started_utc": "2026-10-21T23:49:56.110042+00:00",
+  "phase": "development",
+  "git": {
+    "commit": "cd56ad6035d8562c6aabc6484a6412a0255353a6",
+    "branch": "claude/lob-multisession",
+    "dirty_tracked_files": []
+  },
+  "loaded_dates": [
+    "2025-11-01",
+    "2025-12-01",
+    "2026-01-01",
+    "2026-02-01",
+    "2026-03-01",
+    "2026-04-01",
+    "2026-05-01",
+    "2026-06-01"
+  ],
+  "test_dates": [
+    "2026-04-01",
+    "2026-05-01",
+    "2026-06-01"
+  ],
+  "config": {
+    "source": "tardis-datasets",
+    "exchange": "binance",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "dates": [
+      "2025-11-01",
+      "2025-12-01",
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01",
+      "2026-08-01",
+      "2026-09-01",
+      "2026-10-01"
+    ],
+    "heldout_dates": [
+      "2026-07-01",
+      "2026-08-01",
+      "2026-09-01",
+      "2026-10-01"
+    ],
+    "lot_size": {
+      "BTCUSDT": 1e-05,
+      "ETHUSDT": 0.0001
+    },
+    "tick_size": {
+      "BTCUSDT": 0.01,
+      "ETHUSDT": 0.01
+    },
+    "gap_seconds": 2.0,
+    "levels": 10,
+    "start_seconds": 0,
+    "end_seconds": 86400,
+    "grid_seconds": 0.5,
+    "horizon_seconds": 1.0,
+    "sampling": "event",
+    "event_stride": 20,
+    "horizon_events": 100,
+    "walk_forward_initial_train_fraction": 0.4,
+    "walk_forward_validation_fraction": 0.1,
+    "walk_forward_test_fraction": 0.1,
+    "max_quote_age_seconds": 1.0,
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "seed": 42,
+    "latency_ms": 50,
+    "fee_bps_per_side": 10.0,
+    "latency_sensitivity_ms": [
+      0,
+      50,
+      200
+    ],
+    "fee_sensitivity_bps": [
+      0.0,
+      1.0,
+      5.0,
+      7.5,
+      10.0
+    ],
+    "confidence_thresholds": [
+      0.45,
+      0.55,
+      0.65,
+      0.75,
+      0.85,
+      1.01
+    ],
+    "min_validation_trades": 30,
+    "bootstrap_block_seconds": 60,
+    "bootstrap_repetitions": 500
+  },
+  "config_sha256": "5239d30f9e92b1292d7db2d90d2e20551fd5b49a7acf84f196501ecbea197b54",
+  "plan_sha256": "80771d4c66bad773d4a569ffba4e931544e83d261c9065fdc10f17ec7698eb67",
+  "manifest_sha256": "f67421206040962073e89451c400f9a218675ee01c43a3e00371def0447614e8",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "matplotlib": "3.11.2",
+    "pyarrow": "26.0.0"
+  },
+  "source_code_sha256": {
+    "src/lob_research/__init__.py": "8fd0bf79b252f2dc5c3e9880f62c741038241501055f6957b5327e1ffd1a268b",
+    "src/lob_research/cli.py": "0920fcecdbd03fcb1554a9cdaa06d45d4140ac354e3db80b9dfc11fcbff94d0e",
+    "src/lob_research/crypto/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/lob_research/crypto/adapter.py": "b03917b62ef8ad36961a003b3ff34fa3162e0dbb71ab3ca2859138bf7b508638",
+    "src/lob_research/crypto/figures.py": "cee21be3c03e3bf8d1c2b8dc564b07577a5d95a65011944569fe5bb9e8c51fa8",
+    "src/lob_research/crypto/replication.py": "bac0e38f1ba07f4729ca2b9ee3a17ebcff439d0aeb8ca95e9cffde0adbf566f6",
+    "src/lob_research/crypto/tardis.py": "72ed09ebae21fcb8a350daf73ba8e03a03e1c07d5588fa830cd1812bcc235c51",
+    "src/lob_research/data.py": "c28ff16d8d625c4e8e0ddb592c1ff2dcb89f9dd0d246a840e50d6dfc9fba9850",
+    "src/lob_research/evaluation.py": "528c88b489131b302084498b4253c09e03312f32f193df7dfcc5d8290069bb27",
+    "src/lob_research/models.py": "0920b6ec07e70dcc557ebdf9f835460b1da00c743058833908e218996b748030",
+    "src/lob_research/pipeline.py": "e659c31f0740892c92db53b26d635d400418641f02ce4b9828569188f52ea4ff",
+    "src/lob_research/presentation.py": "a4692bcfda8ece3ed39671259fab3093c2c4cd10db722773b9979a88cd10a522"
+  }
+}

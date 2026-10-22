@@ -18,3 +18,5 @@ results/models/
 data/tardis/
 results/crypto-binance/**/*.parquet
 results/crypto-binance/**/primary-scenario-trades.csv
+# Fitted-model weights may not be published under Tardis licence clause 9.5(b)
+results/crypto-binance/**/logistic-coefficients.csv

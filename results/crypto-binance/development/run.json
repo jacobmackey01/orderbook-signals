@@ -1,0 +1,146 @@
+{
+  "started_utc": "2026-10-21T23:49:56.110042+00:00",
+  "phase": "development",
+  "git": {
+    "commit": "cd56ad6035d8562c6aabc6484a6412a0255353a6",
+    "branch": "claude/lob-multisession",
+    "dirty_tracked_files": []
+  },
+  "loaded_dates": [
+    "2025-11-01",
+    "2025-12-01",
+    "2026-01-01",
+    "2026-02-01",
+    "2026-03-01",
+    "2026-04-01",
+    "2026-05-01",
+    "2026-06-01"
+  ],
+  "test_dates": [
+    "2026-04-01",
+    "2026-05-01",
+    "2026-06-01"
+  ],
+  "config": {
+    "source": "tardis-datasets",
+    "exchange": "binance",
+    "symbols": [
+      "BTCUSDT",
+      "ETHUSDT"
+    ],
+    "dates": [
+      "2025-11-01",
+      "2025-12-01",
+      "2026-01-01",
+      "2026-02-01",
+      "2026-03-01",
+      "2026-04-01",
+      "2026-05-01",
+      "2026-06-01",
+      "2026-07-01",
+      "2026-08-01",
+      "2026-09-01",
+      "2026-10-01"
+    ],
+    "heldout_dates": [
+      "2026-07-01",
+      "2026-08-01",
+      "2026-09-01",
+      "2026-10-01"
+    ],
+    "lot_size": {
+      "BTCUSDT": 1e-05,
+      "ETHUSDT": 0.0001
+    },
+    "tick_size": {
+      "BTCUSDT": 0.01,
+      "ETHUSDT": 0.01
+    },
+    "gap_seconds": 2.0,
+    "levels": 10,
+    "start_seconds": 0,
+    "end_seconds": 86400,
+    "grid_seconds": 0.5,
+    "horizon_seconds": 1.0,
+    "sampling": "event",
+    "event_stride": 20,
+    "horizon_events": 100,
+    "walk_forward_initial_train_fraction": 0.4,
+    "walk_forward_validation_fraction": 0.1,
+    "walk_forward_test_fraction": 0.1,
+    "max_quote_age_seconds": 1.0,
+    "train_fraction": 0.6,
+    "validation_fraction": 0.2,
+    "seed": 42,
+    "latency_ms": 50,
+    "fee_bps_per_side": 10.0,
+    "latency_sensitivity_ms": [
+      0,
+      50,
+      200
+    ],
+    "fee_sensitivity_bps": [
+      0.0,
+      1.0,
+      5.0,
+      7.5,
+      10.0
+    ],
+    "confidence_thresholds": [
+      0.45,
+      0.55,
+      0.65,
+      0.75,
+      0.85,
+      1.01
+    ],
+    "min_validation_trades": 30,
+    "bootstrap_block_seconds": 60,
+    "bootstrap_repetitions": 500
+  },
+  "config_sha256": "5239d30f9e92b1292d7db2d90d2e20551fd5b49a7acf84f196501ecbea197b54",
+  "plan_sha256": "80771d4c66bad773d4a569ffba4e931544e83d261c9065fdc10f17ec7698eb67",
+  "manifest_sha256": "f67421206040962073e89451c400f9a218675ee01c43a3e00371def0447614e8",
+  "python": "3.12.14",
+  "packages": {
+    "numpy": "2.5.4",
+    "pandas": "3.0.6",
+    "scipy": "1.18.1",
+    "scikit-learn": "1.9.1",
+    "xgboost": "3.4.1",
+    "matplotlib": "3.11.2",
+    "pyarrow": "26.0.0"
+  },
+  "source_code_sha256": {
+    "src/lob_research/__init__.py": "8fd0bf79b252f2dc5c3e9880f62c741038241501055f6957b5327e1ffd1a268b",
+    "src/lob_research/cli.py": "0920fcecdbd03fcb1554a9cdaa06d45d4140ac354e3db80b9dfc11fcbff94d0e",
+    "src/lob_research/crypto/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/lob_research/crypto/adapter.py": "b03917b62ef8ad36961a003b3ff34fa3162e0dbb71ab3ca2859138bf7b508638",
+    "src/lob_research/crypto/figures.py": "cee21be3c03e3bf8d1c2b8dc564b07577a5d95a65011944569fe5bb9e8c51fa8",
+    "src/lob_research/crypto/replication.py": "bac0e38f1ba07f4729ca2b9ee3a17ebcff439d0aeb8ca95e9cffde0adbf566f6",
+    "src/lob_research/crypto/tardis.py": "72ed09ebae21fcb8a350daf73ba8e03a03e1c07d5588fa830cd1812bcc235c51",
+    "src/lob_research/data.py": "c28ff16d8d625c4e8e0ddb592c1ff2dcb89f9dd0d246a840e50d6dfc9fba9850",
+    "src/lob_research/evaluation.py": "528c88b489131b302084498b4253c09e03312f32f193df7dfcc5d8290069bb27",
+    "src/lob_research/models.py": "0920b6ec07e70dcc557ebdf9f835460b1da00c743058833908e218996b748030",
+    "src/lob_research/pipeline.py": "e659c31f0740892c92db53b26d635d400418641f02ce4b9828569188f52ea4ff",
+    "src/lob_research/presentation.py": "a4692bcfda8ece3ed39671259fab3093c2c4cd10db722773b9979a88cd10a522"
+  },
+  "completed_utc": "2026-10-21T23:53:13.964074+00:00",
+  "total_source_rows": 86402680,
+  "total_observations": 4318666,
+  "outputs_sha256": {
+    "by-date.csv": "a7940908c7409f2c559e9d52a3e3978ded7626ce219c560c1125c4e9491fa313",
+    "classification-by-fold.csv": "dac0d8c1740022389441c3d97da67ae4c2aadaa54d463b53d2c5576a5b7b2c83",
+    "classification.csv": "48dd7a5716df6c9a5deb501ba37cd2cfd5f66d30810f4ab4eb166c06689d1d8b",
+    "confusion-matrices.csv": "aae442ffbac262ee01f9730b9bc3e9ae1e491129a69ad57bbacd9e44fbe2feca",
+    "data-quality.csv": "db690e652683d1f27b2f7a79cbf9b74ffd5555690c57315efd58dc7b93b99a16",
+    "execution-sensitivity.csv": "1e06e33550e111e4e4d8cbc67d97120fd4c15e144adc3fd3c4145fcafa210d4f",
+    "horizon-seconds.csv": "36d25ad955a156ecbecafd2d4432d79ec6543d18ae2e5892ff1050ca785f4cac",
+    "logistic-coefficients.csv": "c4c9cd9ba662debeb42fa814468bb5f547657a0abde12428d415da38cf7c146c",
+    "pnl-aggregate.csv": "216acb46748152ebd787a6b91873ca55fd2c5949b5c24ef87bb6d480e4a0076a",
+    "primary-scenario-trades.csv": "bf0d7ac530c8cfec17dd5bbae91d5973aa98e0dec569654ccc374a1e35e3c114",
+    "split-counts.csv": "4b364a4f71c98bdc8bf26f672e70c2f22f82f7d3a6c060b956c8d43120b2f5f7",
+    "threshold-search.csv": "5b997ddba75e899eb291beb596d6ab5fc39ea4ed17f2fa9b3eea586dbd806f8f",
+    "validation-decisions.csv": "c0e65a7ca5fc3dc6a40a17485f1ff91b4c46272898f73b18533ee842c6763d7c"
+  }
+}
